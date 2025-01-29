@@ -1,0 +1,119 @@
+title: Jeep Grand Cherokee L
+views:
+  - title: Main
+    path: main
+    icon: mdi:car
+    cards:
+      # Location Card with Map
+      - type: map
+        title: Vehicle Location
+        aspect_ratio: 16:9
+        hours_to_show: 24
+        entities:
+          - entity: sensor.car_car_location
+        default_zoom: 13
+
+      # Main Vehicle Info
+      - type: entities
+        title: Vehicle Status
+        entities:
+          - entity: sensor.car_car_location
+            name: Location
+          - entity: sensor.car_car_vehicleinfo_odometer_odometer_value
+            name: Odometer
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_odometer_odometer_unit}"
+          - entity: sensor.car_last_update
+            name: Last Update
+          - type: divider
+          - entity: sensor.car_car_vehicleinfo_fuel_fuelamountlevel
+            name: Fuel Level
+            unit: "%"
+          - entity: sensor.car_car_vehicleinfo_fuel_fuelamount_value
+            name: Fuel Amount
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_fuel_fuelamount_unit}"
+          - entity: sensor.car_car_vehicleinfo_fuel_distancetoempty_value
+            name: Range
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_fuel_distancetoempty_unit}"
+          - entity: sensor.car_car_vehicleinfo_fuel_isfuellevellow
+            name: Low Fuel Warning
+
+      # Quick Actions
+      - type: entities
+        title: Quick Actions
+        entities:
+          - entity: button.car_updatelocation
+            name: Update Location
+          - entity: button.car_blink
+            name: Blink Lights
+          - entity: switch.car_doorlock
+            name: Door Lock
+          - entity: switch.car_trunk
+            name: Trunk
+          - entity: button.car_deeprefresh
+            name: Refresh Vehicle Status
+
+  - title: Details
+    path: details
+    icon: mdi:car-info
+    cards:
+      # Tire Pressure
+      - type: custom:auto-entities
+        card:
+          type: entities
+          title: Tire Pressure
+        filter:
+          include:
+            - entity_id: "sensor.car_car_vehicleinfo_tyrepressure_array_*"
+              options:
+                secondary_info: "unit: ${sensor.car_car_vehicleinfo_tyrepressure_array_*_pressure_unit}"
+
+      # Trip Information
+      - type: entities
+        title: Trip A
+        entities:
+          - entity: sensor.car_car_vehicleinfo_tripsinfo_trips_array_0_totaldistance_value
+            name: Total Distance
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_tripsinfo_trips_array_0_totaldistance_unit}"
+          - entity: sensor.car_car_vehicleinfo_tripsinfo_trips_array_0_energyused_value
+            name: Fuel Economy
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_tripsinfo_trips_array_0_energyused_unit}"
+
+      - type: entities
+        title: Trip B
+        entities:
+          - entity: sensor.car_car_vehicleinfo_tripsinfo_trips_array_1_totaldistance_value
+            name: Total Distance
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_tripsinfo_trips_array_1_totaldistance_unit}"
+          - entity: sensor.car_car_vehicleinfo_tripsinfo_trips_array_1_energyused_value
+            name: Fuel Economy
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_tripsinfo_trips_array_1_energyused_unit}"
+
+      # Vehicle Health
+      - type: entities
+        title: Vehicle Health
+        entities:
+          - entity: sensor.car_car_vehicleinfo_oillevel_oillevel
+            name: Oil Level
+            unit: "%"
+          - entity: sensor.car_car_vehicleinfo_batteryinfo_batteryvoltage_value
+            name: Battery Voltage
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_batteryinfo_batteryvoltage_unit}"
+          - entity: sensor.car_car_vehicleinfo_batteryinfo_batterystatus
+            name: Battery Status
+
+  - title: Service
+    path: service
+    icon: mdi:wrench
+    cards:
+      # Service Information
+      - type: entities
+        title: Service Information
+        entities:
+          - entity: sensor.car_car_vehicleinfo_daystoservice
+            name: Days to Service
+          - entity: sensor.car_car_vehicleinfo_distancetoservice_distancetoservice_value
+            name: Distance to Service
+            secondary_info: "unit: ${sensor.car_car_vehicleinfo_distancetoservice_distancetoservice_unit}"
+          - type: divider
+          - entity: update.fiatchamp_update
+            name: FiatChamp Update
